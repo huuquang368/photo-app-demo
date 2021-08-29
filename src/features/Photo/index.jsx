@@ -7,7 +7,6 @@ import AddEditPage from './pages/AddEditPage';
 
 function Photo(props) {
   const match = useRouteMatch();
-  console.log('match :>> ', { match });
 
   return (
     <Switch>

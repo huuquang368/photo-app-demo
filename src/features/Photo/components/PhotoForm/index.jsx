@@ -10,12 +10,7 @@ import SelectField from 'custom-fields/SelectField';
 import RandomPhotoField from 'custom-fields/RandomPhotoField';
 import './styles.scss';
 
-function PhotoForm({ onSubmit }) {
-  const initialValues = {
-    title: '',
-    categoryId: null,
-    photo: '',
-  };
+function PhotoForm({ initialValues, onSubmit, isAddMode }) {
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('This field is required.'),
     categoryId: Yup.number().required('This field is required.').nullable(),
@@ -57,13 +52,13 @@ function PhotoForm({ onSubmit }) {
             />
 
             <FormGroup>
-              <Button type="submit" color="primary">
+              <Button type="submit" color={isAddMode ? 'primary' : 'success'}>
                 {isSubmitting && (
                   <Spinner animation="border" role="status" size="sm">
                     <div></div>
                   </Spinner>
                 )}
-                Add to album
+                {isAddMode ? ' Add to album' : ' Update photo'}
               </Button>
             </FormGroup>
           </Form>
