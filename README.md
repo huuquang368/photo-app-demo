@@ -53,7 +53,7 @@ src
 
 ## Random Photo control
 
-RandomPhoto
+RandomPhoto render RandomPhotoField
 Props
 
 - name
@@ -61,6 +61,12 @@ Props
 - onImageUrlChange
 - onRandomButtonBlur
 
-RandomPhotoField
-
 Formik, Yup
+
+## Redux toolkit:
+
+```js
+import { configureStore } from '@reduxjs/toolkit'
+import rootReducer from './reducers'
+import store = configureStore({ reducer: rootReducer })
+```
