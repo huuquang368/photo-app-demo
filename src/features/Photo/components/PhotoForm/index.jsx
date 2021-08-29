@@ -1,28 +1,37 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-// import * as Yup from 'yup';
+import { Formik, Form, FastField } from 'formik';
+import * as Yup from 'yup';
 import { PHOTO_CATEGORY_OPTIONS } from 'constants/global';
 import { Button, FormGroup } from 'reactstrap';
 
-// import RandomPhotoField from 'custom-fields/RandomPhotoField';
-import { Formik, Form, FastField } from 'formik';
 import InputField from 'custom-fields/InputField';
-import './styles.scss';
 import SelectField from 'custom-fields/SelectField';
 import RandomPhotoField from 'custom-fields/RandomPhotoField';
+import './styles.scss';
 
-function PhotoForm(props) {
+function PhotoForm() {
   const initialValues = {
     title: '',
     categoryId: null,
+    photo: '',
   };
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required('This field is required.'),
+    categoryId: Yup.number().required('This field is required.').nullable(),
+    photo: Yup.string().when('categoryId', {
+      is: 1,
+      then: Yup.string().required('This field is required.'),
+      otherwise: Yup.string().notRequired(),
+    }), // require when categoryId = 1 and other not required
+  });
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={values => console.log('submit:', values)}
+      validationSchema={validationSchema}
     >
       {formikProps => {
-        // do something here
         const { values, errors, touched } = formikProps;
         console.log({ values, errors, touched });
         return (
@@ -57,9 +66,5 @@ function PhotoForm(props) {
     </Formik>
   );
 }
-
-// PhotoForm.propTypes = {
-//   onSubmit: PropTypes.func,
-// };
 
 export default PhotoForm;
