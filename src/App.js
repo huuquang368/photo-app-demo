@@ -21,7 +21,6 @@ if (!firebase.apps.length) {
 }
 
 function App() {
-  // const [productList, setProductList] = useState([]);
   useEffect(() => {
     const fetchProductList = async () => {
       try {
