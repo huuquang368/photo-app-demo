@@ -7,6 +7,9 @@ import productApi from 'api/productApi';
 import SignIn from 'features/Auth/pages/SignIn';
 import firebase from 'firebase';
 import { Button } from 'reactstrap';
+import { useDispatch } from 'react-redux';
+import { getMe } from 'app/userSilce';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 // lazy load - Code splitting
 const Photo = React.lazy(() => import('./features/Photo'));
@@ -22,6 +25,7 @@ if (!firebase.apps.length) {
 }
 
 function App() {
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchProductList = async () => {
       try {
@@ -48,14 +52,14 @@ function App() {
           // user logout
           return;
         }
-
-        // console.log('Login user:', user);
+        // get me when signed in
+        const actionResult = await dispatch(getMe());
+        const currentUser = unwrapResult(actionResult);
+        console.log('login user:', currentUser);
         localStorage.setItem('account', JSON.stringify(user));
-        // const token = await user.getIdToken();
-        // console.log('Login user:', token);
       });
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
-  }, []);
+  }, [dispatch]);
 
   const handleClick = async () => {
     try {
